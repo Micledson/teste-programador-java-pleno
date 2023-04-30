@@ -44,5 +44,11 @@ public class ClientResource {
         }
     }
 
-
+    @Path("/{id}")
+    @DELETE
+    @Transactional
+    public Response delete(@PathParam("id") Long id) {
+        if (clientServer.delete(id)) return Response.status(Response.Status.NO_CONTENT).build();
+        return Response.status(Response.Status.NOT_FOUND).entity("Client not found").type(MediaType.TEXT_PLAIN_TYPE).build();
+    }
 }

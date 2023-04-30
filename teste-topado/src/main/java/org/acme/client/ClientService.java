@@ -27,6 +27,7 @@ public class ClientService {
         return this.clientRepository.findAll().list();
     }
 
+
     public Client create(ClientCreateRequestDto clientDto) {
         validator.validators(clientDto);
 
@@ -51,6 +52,10 @@ public class ClientService {
         this.clientRepository.persist(entity);
         return entity;
 
+    }
+
+    public boolean delete(Long id) {
+        return this.clientRepository.deleteById(id);
     }
 
     private Exception isUniqueEmail(String email, Optional<Long> id) {

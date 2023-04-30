@@ -1,9 +1,10 @@
 package org.acme.client;
 
+import org.acme.client.dto.request.ClientCreateRequestDto;
+
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.transaction.Transactional;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -16,9 +17,19 @@ public class ClientResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
 
-        System.out.println("eae");
         return Response.status(Response.Status.OK).entity(clientServer.findAll()).build();
     }
 
+    @POST
+    @Transactional
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response create(ClientCreateRequestDto clientDto) {
+        System.out.println(clientDto + "");
+        try {
+            return Response.status(Response.Status.CREATED).entity(clientServer.create(clientDto)).build();
+        } catch (WebApplicationException err) {
+            return Response.status(err.getResponse().getStatus()).entity(err.getMessage()).type(MediaType.TEXT_PLAIN_TYPE).build();
+        }
+    }
 
 }

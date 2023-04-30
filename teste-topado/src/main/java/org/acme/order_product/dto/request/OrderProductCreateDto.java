@@ -1,4 +1,4 @@
-package org.acme.order_demand.dto.request;
+package org.acme.order_product.dto.request;
 
 
 import lombok.Data;

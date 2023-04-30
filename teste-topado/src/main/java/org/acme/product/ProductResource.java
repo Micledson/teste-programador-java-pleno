@@ -1,6 +1,7 @@
 package org.acme.product;
 
 import org.acme.product.dto.request.ProductCreateDto;
+import org.acme.product.dto.request.ProductUpdateDto;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -25,6 +26,17 @@ public class ProductResource {
         try {
             productService.create(productDto);
             return Response.status(Response.Status.CREATED).entity(productDto).build();
+        } catch (WebApplicationException err) {
+            return Response.status(err.getResponse().getStatus()).entity(err.getMessage()).type(MediaType.TEXT_PLAIN_TYPE).build();
+        }
+    }
+
+    @Path("/{id}")
+    @PUT
+    @Transactional
+    public Response update(ProductUpdateDto productDto, @PathParam("id") Long id) {
+        try {
+            return Response.status(Response.Status.NO_CONTENT).entity(productService.update(productDto, id)).build();
         } catch (WebApplicationException err) {
             return Response.status(err.getResponse().getStatus()).entity(err.getMessage()).type(MediaType.TEXT_PLAIN_TYPE).build();
         }

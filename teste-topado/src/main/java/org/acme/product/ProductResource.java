@@ -42,4 +42,11 @@ public class ProductResource {
         }
     }
 
+    @Path("/{id}")
+    @DELETE
+    @Transactional
+    public Response delete(@PathParam("id") Long id) {
+        if (productService.delete(id)) return Response.status(Response.Status.NO_CONTENT).build();
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
 }

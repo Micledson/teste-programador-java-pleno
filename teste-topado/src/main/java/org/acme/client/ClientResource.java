@@ -1,6 +1,7 @@
 package org.acme.client;
 
 import org.acme.client.dto.request.ClientCreateRequestDto;
+import org.acme.client.dto.request.ClientUpdateRequestDto;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -31,5 +32,17 @@ public class ClientResource {
             return Response.status(err.getResponse().getStatus()).entity(err.getMessage()).type(MediaType.TEXT_PLAIN_TYPE).build();
         }
     }
+
+    @Path("/{id}")
+    @PUT
+    @Transactional
+    public Response update(ClientUpdateRequestDto clientDto, @PathParam("id") Long id) {
+        try {
+            return Response.status(Response.Status.OK).entity(clientServer.update(clientDto, id)).build();
+        } catch (WebApplicationException err) {
+            return Response.status(err.getResponse().getStatus()).entity(err.getMessage()).type(MediaType.TEXT_PLAIN_TYPE).build();
+        }
+    }
+
 
 }

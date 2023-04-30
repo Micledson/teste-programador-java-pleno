@@ -2,6 +2,7 @@ package org.acme.client;
 
 
 import org.acme.client.dto.request.ClientCreateRequestDto;
+import org.acme.client.dto.request.ClientUpdateRequestDto;
 import utils.ValidatorUtils;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -37,6 +38,20 @@ public class ClientService {
         return client;
     }
 
+    public Client update(ClientUpdateRequestDto clientDto, Long id) {
+        validator.validators(clientDto);
+
+        Client entity = this.clientRepository.findById(id);
+        if (entity == null) throw new WebApplicationException("Client not Found", Response.Status.NOT_FOUND);
+
+        this.clientMapper.updateFromDto(clientDto, entity);
+
+        verifyFieldsToUpdate(entity);
+
+        this.clientRepository.persist(entity);
+        return entity;
+
+    }
 
     private Exception isUniqueEmail(String email, Optional<Long> id) {
         Client client = this.clientRepository.find("email = ?1", email).firstResult();

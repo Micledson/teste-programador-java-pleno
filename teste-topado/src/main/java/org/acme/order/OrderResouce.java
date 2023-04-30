@@ -41,4 +41,11 @@ public class OrderResouce {
         }
     }
 
+    @Path("/{id}")
+    @DELETE
+    @Transactional
+    public Response delete(@PathParam("id") Long id) {
+        if (orderService.delete(id)) return Response.status(Response.Status.NO_CONTENT).build();
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
 }

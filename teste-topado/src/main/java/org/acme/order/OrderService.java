@@ -48,5 +48,9 @@ public class OrderService {
         return order;
     }
 
+    public boolean delete(Long id) {
+        return this.orderRepository.deleteById(id);
+    }
+
 
 }

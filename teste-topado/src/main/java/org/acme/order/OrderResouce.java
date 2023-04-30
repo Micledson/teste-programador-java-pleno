@@ -1,6 +1,7 @@
 package org.acme.order;
 
 import org.acme.order.dto.request.OrderCreateDto;
+import org.acme.order.dto.request.OrderUpdateDto;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -24,6 +25,17 @@ public class OrderResouce {
     public Response create(OrderCreateDto orderDto) {
         try {
             return Response.status(Response.Status.CREATED).entity(orderService.create(orderDto)).build();
+        } catch (WebApplicationException err) {
+            return Response.status(err.getResponse().getStatus()).entity(err.getMessage()).type(MediaType.TEXT_PLAIN_TYPE).build();
+        }
+    }
+
+    @Path("/{id}")
+    @PUT
+    @Transactional
+    public Response update(OrderUpdateDto orderDto, @PathParam("id") Long id) {
+        try {
+            return Response.status(Response.Status.OK).entity(orderService.update(orderDto, id)).build();
         } catch (WebApplicationException err) {
             return Response.status(err.getResponse().getStatus()).entity(err.getMessage()).type(MediaType.TEXT_PLAIN_TYPE).build();
         }

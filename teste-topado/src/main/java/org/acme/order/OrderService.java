@@ -1,11 +1,13 @@
 package org.acme.order;
 
-import org.acme.client.ClientRepository;
 import org.acme.order.dto.request.OrderCreateDto;
+import org.acme.order.dto.request.OrderUpdateDto;
 import utils.ValidatorUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 
@@ -13,9 +15,6 @@ import java.util.List;
 public class OrderService {
     @Inject
     private OrderRepository orderRepository;
-
-    @Inject
-    private ClientRepository clientRepository;
 
     @Inject
     private OrderMapper orderMapper;
@@ -36,4 +35,18 @@ public class OrderService {
         this.orderRepository.persist(order);
         return order;
     }
+
+    public Order update(OrderUpdateDto orderDto, Long id) {
+        this.validator.validators(orderDto);
+
+        Order order = this.orderRepository.findById(id);
+        if (order == null) throw new WebApplicationException("Order not Found", Response.Status.NOT_FOUND);
+
+        this.orderMapper.updateFromDto(orderDto, order);
+
+        this.orderRepository.persist(order);
+        return order;
+    }
+
+
 }

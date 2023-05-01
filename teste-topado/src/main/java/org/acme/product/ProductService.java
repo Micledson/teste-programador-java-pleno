@@ -1,5 +1,6 @@
 package org.acme.product;
 
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import org.acme.product.dto.request.ProductCreateDto;
 import org.acme.product.dto.request.ProductUpdateDto;
 import utils.ValidatorUtils;
@@ -23,8 +24,10 @@ public class ProductService {
 
 
     public List<Product> findAll() {
-        return productRepository.findAll().list();
+        PanacheQuery<Product> products = this.productRepository.findAll();
+        return products.list();
     }
+
 
     public void create(ProductCreateDto productDto) {
         validator.validators(productDto);
@@ -40,10 +43,10 @@ public class ProductService {
         Product product = this.productRepository.findById(id);
         if (product == null) throw new WebApplicationException("Product not Found", Response.Status.NOT_FOUND);
 
-        int unities = product.getUnity();
+        int unities = product.getUnities();
         productMapper.updateFromDto(productDto, product);
 
-        if (product.getUnity() <= 0) product.setUnity(unities);
+        if (product.getUnities() <= 0) product.setUnities(unities);
 
         productRepository.persist(product);
         return product;

@@ -10,7 +10,7 @@ public class ProductUpdateDto {
     private String description;
 
     @Min(0)
-    private int unity;
+    private int unities;
 
     @Min(1)
     private Double price;

@@ -1,6 +1,7 @@
 package org.acme.client;
 
 
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import org.acme.client.dto.request.ClientCreateRequestDto;
 import org.acme.client.dto.request.ClientUpdateRequestDto;
 import utils.ValidatorUtils;
@@ -24,7 +25,8 @@ public class ClientService {
     private ValidatorUtils validator;
 
     public List<Client> findAll() {
-        return this.clientRepository.findAll().list();
+        PanacheQuery<Client> clients = this.clientRepository.findAll();
+        return clients.list();
     }
 
 

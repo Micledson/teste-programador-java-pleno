@@ -15,7 +15,7 @@ public class ProductCreateDto {
 
     @NotNull
     @Min(1)
-    private int unity;
+    private int unities;
 
     @NotNull
     @Min(1)

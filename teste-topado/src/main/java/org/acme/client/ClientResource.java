@@ -25,7 +25,6 @@ public class ClientResource {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(ClientCreateRequestDto clientDto) {
-        System.out.println(clientDto + "");
         try {
             return Response.status(Response.Status.CREATED).entity(clientServer.create(clientDto)).build();
         } catch (WebApplicationException err) {

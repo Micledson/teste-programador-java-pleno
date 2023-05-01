@@ -1,5 +1,6 @@
 package org.acme.order;
 
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import org.acme.order.dto.request.OrderCreateDto;
 import org.acme.order.dto.request.OrderUpdateDto;
 import utils.ValidatorUtils;
@@ -23,7 +24,8 @@ public class OrderService {
     private ValidatorUtils validator;
 
     public List<Order> findAll() {
-        return orderRepository.listAll();
+        PanacheQuery<Order> orders = this.orderRepository.findAll();
+        return orders.list();
     }
 
     public Order create(OrderCreateDto orderDto) {
